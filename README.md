@@ -62,10 +62,11 @@ The model follows the dual-stream design from *"Spoof-formerNet: Face Anti Spoof
 ## Installation
 
 ```bash
-git clone <repo>
-cd spoofformer
+git clone https://github.com/AlyDawoodd/Simplified-SpoofFormer.git
+cd Simplified-SpoofFormer
 python -m venv venv
 venv\Scripts\activate       # Windows
+source venv/bin/activate    # Linux/Mac
 pip install -r requirements.txt
 ```
 
