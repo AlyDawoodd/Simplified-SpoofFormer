@@ -106,6 +106,10 @@ CASIA-FASD used covers only **print attacks** under controlled conditions — on
 - **3D mask attacks** — silicone masks have some 3D geometry that MiDaS alone may not reliably distinguish from a real face
 - **Replay attacks** — phone/tablet screens displaying a video of a real face; not present in this dataset
 - **Digital injection attacks** — virtual cameras or deepfakes injected directly into the video stream
+- **Domain gap** — all images were captured with a single camera under controlled lab 
+conditions. The model fails on out-of-distribution images such as professional photography 
+or photos taken with different devices, as the learned features do not generalize across 
+camera characteristics and lighting conditions.
 
 For production eKYC deployment, training on a more diverse dataset such as OULU-NPU or MSU-MFSD would significantly improve generalization. For 3D mask attack detection specifically, **DPT (Dense Prediction Transformer)** for depth estimation would be more suitable than MiDaS, as it captures finer surface geometry needed to distinguish a silicone mask from a real face.
 
