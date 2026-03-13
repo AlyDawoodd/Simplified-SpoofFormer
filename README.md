@@ -342,7 +342,7 @@ For a production eKYC system beyond CASIA-FASD:
 ---
 
 ## Quick Test (Notebook)
-## Download Checkpoint
+
 Download `best_model.pth` from [Releases](https://github.com/AlyDawoodd/Simplified-SpoofFormer/releases) 
 and place it in `checkpoints/`.
 ```bash
