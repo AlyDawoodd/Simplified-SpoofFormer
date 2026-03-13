@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Data — too large for GitHub
+data/
+
+# Large model files
+*.pth
+*.onnx
+*.pt
+spoofformer_*.onnx
+spoofformer_*.pt
+
+# Generated outputs
+evaluation_results/
+test_results.png
+depth_original/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

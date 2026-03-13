@@ -1,0 +1,50 @@
+# configs/default.yaml
+# Training configuration for Dual-Stream SpoofFormer
+# Reflects the final optimal configuration used in this implementation.
+# Override any value via CLI: python train.py --lr 3e-5
+
+# ── Model ─────────────────────────────────────
+model:
+  size: small           # small (~24M params) | base (~100M) | large (~200M)
+  img_size: 128         # 128 chosen over 224 — reduces tokens 784→256, 9x less attention compute
+  embed_dim: 256        # small=256, base=512, large=768
+  depth: 8              # number of HybridAttentionBlocks per stream
+  num_heads: 8
+  window_size: 7        # W-Local attention window size
+  mlp_ratio: 4.0
+  dropout: 0.4          # strong regularization — essential for small datasets (<2000 samples)
+  use_midas: false      # false = load pre-generated depth from disk (faster)
+                        # true  = generate depth at runtime via MiDaS (for arbitrary images)
+
+# ── Dataset ───────────────────────────────────
+data:
+  dataset: casia
+  root: data/casiafasd/split
+  img_size: 128
+  num_workers: 0        # 0 required on Windows (multiprocessing issue)
+  batch_size: 8         # limited by 6GB VRAM
+  aug_level: none       # none | light | full
+                        # none chosen — augmentation hurt depth stream signal on small dataset
+  oversample: false     # class imbalance handled by weighted CrossEntropyLoss instead
+
+# ── Training ──────────────────────────────────
+training:
+  epochs: 20            # early stopping triggers around epoch 10 in practice
+  lr: 3.0e-5            # optimal — faster than 1e-5, stable unlike 5e-5
+  weight_decay: 1.0e-2  # strong L2 regularization for small dataset
+  warmup_epochs: 2      # short warmup stabilizes early training
+  early_stop: 5         # stop if val ACER doesn't improve for 5 epochs
+  label_smoothing: 0.1
+  amp: true             # FP16 mixed precision — ~50% memory reduction
+  grad_clip: 1.0
+
+# ── Inference threshold ───────────────────────
+inference:
+  threshold: 0.5        # default decision threshold
+                        # for finance/eKYC: lower to 0.3–0.4 to catch more spoofs
+                        # trades BPCER (false alarms) for lower APCER (missed attacks)
+
+# ── Output ────────────────────────────────────
+output:
+  checkpoint_dir: checkpoints/
+  log_file: checkpoints/training_log.csv
