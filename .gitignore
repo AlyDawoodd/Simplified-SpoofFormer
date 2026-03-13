@@ -17,7 +17,7 @@ spoofformer_*.pt
 
 # Generated outputs
 evaluation_results/
-test_results.png
+
 depth_original/
 
 # Jupyter checkpoints
